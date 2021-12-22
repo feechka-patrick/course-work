@@ -8,16 +8,16 @@ const TypeBar = observer( () => {
         <Card>
         <ListGroup>
             <ListGroup.Item action>Logical games</ListGroup.Item>
-            <ListGroup.Item disabled>Dapibus ac facilisis in</ListGroup.Item>
-            <ListGroup.Item disabled>Morbi leo risus</ListGroup.Item>
-            <ListGroup.Item disabled>Porta ac consectetur ac</ListGroup.Item>
-            <ListGroup.Item disabled>Vestibulum at eros</ListGroup.Item>
-            <ListGroup.Item disabled>Morbi leo risus</ListGroup.Item>
-            <ListGroup.Item disabled>Porta ac consectetur ac</ListGroup.Item>
-            <ListGroup.Item disabled>Vestibulum at eros</ListGroup.Item>
-            <ListGroup.Item disabled>Morbi leo risus</ListGroup.Item>
-            <ListGroup.Item disabled>Porta ac consectetur ac</ListGroup.Item>
-            <ListGroup.Item disabled>Vestibulum at eros</ListGroup.Item>
+            <ListGroup.Item disabled>Jeux de logique</ListGroup.Item>
+            <ListGroup.Item disabled>Juegos de lógica</ListGroup.Item>
+            <ListGroup.Item disabled>Logische spellen</ListGroup.Item>
+            <ListGroup.Item disabled>Logikaj ludoj</ListGroup.Item>
+            <ListGroup.Item disabled>Loogisia pelejä</ListGroup.Item>
+            <ListGroup.Item disabled>Mga larong lohikal</ListGroup.Item>
+            <ListGroup.Item disabled>Logische Spiele</ListGroup.Item>
+            <ListGroup.Item disabled>Cluichí loighciúla</ListGroup.Item>
+            <ListGroup.Item disabled>Gry logiczne</ListGroup.Item>
+            <ListGroup.Item disabled>Michezo ya kimantiki</ListGroup.Item>
         </ListGroup>
         </Card>
     );

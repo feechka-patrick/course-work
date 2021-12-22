@@ -31,14 +31,14 @@ const Game = () => {
   const startNewGame = () => {
     setBoard(Array(9).fill(null))
     setCount(0)
-}
+  }
   return (
     <div className='black_back'>
 
-      <button 
-      variant={"outline-light"} 
-      className="start__btn" 
-      onClick={() => startNewGame()}> NEW GAME</button>
+      <button
+        variant={"outline-light"}
+        className="start__btn"
+        onClick={() => startNewGame()}> NEW GAME</button>
 
       <div className="board">
         {
@@ -50,7 +50,10 @@ const Game = () => {
           ))
         }
       </div>
-      <div className='game__info'> {winner ? "Победил " + winner + " !": "Ходит: X"}</div>
+
+      <div className='game__info'> {winner ? "Победил " + winner + " !"
+        :
+        (countStep === 9) ? "Ничья !" : "Ходит: X"} </div>
     </div>
   );
 }

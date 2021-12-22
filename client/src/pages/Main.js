@@ -25,8 +25,7 @@ const Main = () => {
             <Card.Body >
               <Card.Title>Крестики - нолики</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of
-                the card's content.
+                Tic Tac Toe is a logic game between two opponents on a 3-by-3 square field.
               </Card.Text>
               <ButtonGroup className="d-flex justify-content-center" >
               {user.isAuth ? 
