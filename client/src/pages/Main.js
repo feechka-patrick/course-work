@@ -11,6 +11,7 @@ const Main = () => {
   const {user} = useContext(Context);
   const history = useHistory();
 
+  console.log("login: " + user.isAuth)
   return (
     <Container>
       <Row className="mt-5">

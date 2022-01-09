@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Card, Form, Row, Col, Button, Container} from 'react-bootstrap'
+import {Context} from "../index";
 
 const Account = () => {
+  const { user } = useContext(Context)
+
   return (
     <Container className="mt-5">
       <Card className="m-5 p-5">
@@ -36,7 +39,7 @@ const Account = () => {
       {/* BUTTON SAVE CHANGE */}
       <Form.Group as={Row} className="mb-3">
         <Col sm={{ span: 10, offset: 2 }}>
-          <Button variant={"outline-dark"} type="submit">Save change</Button>
+          <Button variant={"outline-dark"}>Save change</Button>
         </Col>
       </Form.Group>
     </Form>

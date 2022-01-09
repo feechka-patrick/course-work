@@ -49,6 +49,10 @@ let AuthService = class AuthService {
         }
         throw new common_1.UnauthorizedException({ message: 'User with this email not exists' });
     }
+    async validateEmail(email) {
+        const result = /\S+@\S+\.\S+/;
+        return result.test(email);
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),

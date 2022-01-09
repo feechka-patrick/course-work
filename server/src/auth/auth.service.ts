@@ -44,4 +44,10 @@ export class AuthService {
         }
         throw new UnauthorizedException({message: 'User with this email not exists'});
     }
+
+    private async validateEmail(email) 
+    {
+        const result = /\S+@\S+\.\S+/;
+        return result.test(email);
+    }
 }

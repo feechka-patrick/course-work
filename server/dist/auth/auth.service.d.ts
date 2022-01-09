@@ -13,4 +13,5 @@ export declare class AuthService {
     }>;
     private generateToken;
     private validateUser;
+    private validateEmail;
 }
