@@ -11,7 +11,7 @@ const Main = () => {
   const {user} = useContext(Context);
   const history = useHistory();
 
-  console.log("login: " + user.isAuth)
+  console.log("login: " + user._isAuth)
   return (
     <Container>
       <Row className="mt-5">
@@ -22,7 +22,6 @@ const Main = () => {
 
         <Col md={9}>
           <Card style={{ width: '18rem' }}>
-            {/* <Card.Img variant="top" src="../image/100px180.jpg" /> */}
             <Card.Body >
               <Card.Title>Крестики - нолики</Card.Title>
               <Card.Text>

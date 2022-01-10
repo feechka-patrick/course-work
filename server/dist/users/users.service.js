@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const roles_service_1 = require("../roles/roles.service");
 const users_model_1 = require("./users.model");
+const bcrypt = require("bcryptjs");
 let UsersService = class UsersService {
     constructor(userRepository, roleService) {
         this.userRepository = userRepository;
@@ -28,6 +29,33 @@ let UsersService = class UsersService {
         await user.$set('roles', [role.id]);
         user.roles = [role];
         return user;
+    }
+    async changeEmail(dto) {
+        const candidate = await this.getUserByEmail(dto.new_email);
+        if (candidate)
+            throw new common_1.HttpException("User with this email exists", common_1.HttpStatus.BAD_REQUEST);
+        const user = await this.getUserByEmail(dto.email);
+        if (user) {
+            const passwordEquals = await bcrypt.compare(dto.password, user.password);
+            if (passwordEquals) {
+                await this.userRepository.update({ email: dto.new_email }, { where: { id: user.id } });
+                return user;
+            }
+            throw new common_1.UnauthorizedException({ message: 'Incorrect password' });
+        }
+        throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+    }
+    async deleteUser(dto) {
+        const user = await this.getUserByEmail(dto.email);
+        if (user) {
+            const passwordEquals = await bcrypt.compare(dto.password, user.password);
+            if (passwordEquals) {
+                await this.userRepository.destroy({ where: { id: user.id } });
+                return "success";
+            }
+            throw new common_1.UnauthorizedException({ message: 'Incorrect password' });
+        }
+        throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
     }
     async getAllUsers() {
         const users = await this.userRepository.findAll({ include: { all: true } });

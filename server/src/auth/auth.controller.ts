@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { TokenDto } from 'src/users/dto/token.dto';
 import { AuthService } from './auth.service';
 
 @ApiTags("Authorization")
@@ -17,5 +18,11 @@ export class AuthController {
     @Post('/registration')
     registration(@Body() userDto: CreateUserDto){
         return this.authService.registration(userDto);
+    }
+
+    @Post('/decodeToken')
+    decodeToken(@Body() token: TokenDto){
+        console.log("\n\nTOKEN: ", token)
+        return this.authService.decodeToken(token);
     }
 }

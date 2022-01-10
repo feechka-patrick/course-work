@@ -4,6 +4,8 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs'
 import { User } from 'src/users/users.model';
+import jwtDecode from 'jwt-decode';
+import { TokenDto } from 'src/users/dto/token.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,11 +28,14 @@ export class AuthService {
         return this.generateToken(user);
     }
 
+    async decodeToken(signedJwtAccessToken: TokenDto){
+        const decodedJwtAccessToken = jwtDecode(signedJwtAccessToken.token);
+        return decodedJwtAccessToken;
+    }
+
     private async generateToken(user: User){
-        const payload = {email: user.email, id: user.id, roles: user.roles};
-        return {
-            token: this.jwtService.sign(payload)
-        }
+        const payload = {email: user.email, id: user.id, roles: user.roles, password: user.password};
+        return this.jwtService.sign(payload)
     }
 
     private async validateUser(userDto: CreateUserDto){
@@ -43,11 +48,5 @@ export class AuthService {
             throw new UnauthorizedException({message: 'Incorrect password'});
         }
         throw new UnauthorizedException({message: 'User with this email not exists'});
-    }
-
-    private async validateEmail(email) 
-    {
-        const result = /\S+@\S+\.\S+/;
-        return result.test(email);
     }
 }

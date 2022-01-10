@@ -16,6 +16,7 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const create_user_dto_1 = require("../users/dto/create-user.dto");
+const token_dto_1 = require("../users/dto/token.dto");
 const auth_service_1 = require("./auth.service");
 let AuthController = class AuthController {
     constructor(authService) {
@@ -26,6 +27,10 @@ let AuthController = class AuthController {
     }
     registration(userDto) {
         return this.authService.registration(userDto);
+    }
+    decodeToken(token) {
+        console.log("\n\nTOKEN: ", token);
+        return this.authService.decodeToken(token);
     }
 };
 __decorate([
@@ -42,6 +47,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registration", null);
+__decorate([
+    (0, common_1.Post)('/decodeToken'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [token_dto_1.TokenDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "decodeToken", null);
 AuthController = __decorate([
     (0, swagger_1.ApiTags)("Authorization"),
     (0, common_1.Controller)('auth'),

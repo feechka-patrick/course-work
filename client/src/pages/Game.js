@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import {Context} from "../index";
 import Square from '../components/Square';
 import '../css/GameComponents.css'
-import { calculateWinner, getNextStep } from './GameUtils';
+import { createGame, getGamesByUser } from '../http/userAPI';
+import { calculateWinner, getNextStep, getRandomInt } from './GameUtils';
 
 const Game = () => {
+  const { user } = useContext(Context)
   const [board, setBoard] = useState(Array(9).fill(null))
   const [countStep, setCount] = useState(0)
   const winner = calculateWinner(board)
@@ -26,12 +29,40 @@ const Game = () => {
 
     setCount(countStep + step)
     setBoard(boardCopy)
+
+    //еще одна проверка на конец игры для записи в таблицу
+    const lasttmpwinner = calculateWinner(boardCopy)
+    if (lasttmpwinner !== null || countStep >= 8){
+      try {
+        let bwinner = lasttmpwinner === 'x' ? true : false;
+        let time = getRandomInt(2, 30);
+        let data = createGame(bwinner, time, user.id)
+        this.updateGames()
+      } catch (e) {
+        alert(e.response.data.message)
+      }
+    }
   }
+
+  const updateGames = () => {
+		try {
+			let data = getGamesByUser(user.email)
+
+			let games = []
+			{data.data.map((game, i) =>
+				games.push({winner: game.winner, time: game.time})
+			)}
+			user.setGames(games)
+		} catch (e) {
+			alert(e.response.data.message)
+		}
+	}
 
   const startNewGame = () => {
     setBoard(Array(9).fill(null))
     setCount(0)
   }
+
   return (
     <div className='black_back'>
 
@@ -51,9 +82,9 @@ const Game = () => {
         }
       </div>
 
-      <div className='game__info'> {winner ? "Победил " + winner + " !"
+      <div className='game__info'> {winner ? "[ WIN " + winner + " ! ]"
         :
-        (countStep === 9) ? "Ничья !" : "Ходит: X"} </div>
+        (countStep === 9) ? "[ DRAW ! ]" : "[ YOU TURN ]"} </div>
     </div>
   );
 }

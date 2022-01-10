@@ -7,11 +7,10 @@ import { LOGIN_ROUTE } from '../utils/consts';
 
 const AppRouter = () => {
   const {user} = useContext(Context)
-  console.log(user._isAuth)
-  
+
   return (
     <Switch>
-        {user._isAuth && authRoutes.map(({path, Component}) =>
+        {authRoutes.map(({path, Component}) =>
             <Route key={path} path={path} component={Component} exact/>
         )}
         {publicRoutes.map(({path, Component}) =>

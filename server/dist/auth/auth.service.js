@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
 const bcrypt = require("bcryptjs");
+const jwt_decode_1 = require("jwt-decode");
 let AuthService = class AuthService {
     constructor(userService, jwtService) {
         this.userService = userService;
@@ -32,11 +33,13 @@ let AuthService = class AuthService {
         const user = await this.userService.createUser(Object.assign(Object.assign({}, userDto), { password: hashPassword }));
         return this.generateToken(user);
     }
+    async decodeToken(signedJwtAccessToken) {
+        const decodedJwtAccessToken = (0, jwt_decode_1.default)(signedJwtAccessToken.token);
+        return decodedJwtAccessToken;
+    }
     async generateToken(user) {
-        const payload = { email: user.email, id: user.id, roles: user.roles };
-        return {
-            token: this.jwtService.sign(payload)
-        };
+        const payload = { email: user.email, id: user.id, roles: user.roles, password: user.password };
+        return this.jwtService.sign(payload);
     }
     async validateUser(userDto) {
         const user = await this.userService.getUserByEmail(userDto.email);
@@ -48,10 +51,6 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException({ message: 'Incorrect password' });
         }
         throw new common_1.UnauthorizedException({ message: 'User with this email not exists' });
-    }
-    async validateEmail(email) {
-        const result = /\S+@\S+\.\S+/;
-        return result.test(email);
     }
 };
 AuthService = __decorate([

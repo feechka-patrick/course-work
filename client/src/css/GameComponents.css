@@ -9,15 +9,23 @@
 }
 
 .start__btn {
-    width: 200px;
-    height: 35px;
+    width: 210px;
+    height: 60px;
     margin-bottom: 25px;
     cursor: pointer;
     color: white;
     outline: none;
     background: #222222;
     border: 1px solid white;
+    font-size: 40px;
+    font-family: 'Bubblegum Sans', cursive;
 }
+
+.account_btn {
+    width: 140px;
+    height: 35px;
+}
+
 .start__btn:hover {
     background: #fff;
     color: #222222;

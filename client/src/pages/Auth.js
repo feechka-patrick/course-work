@@ -2,71 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { NavLink, useLocation, useHistory} from "react-router-dom";
-import { login, registration } from '../http/userAPI';
+import { decodeToken, getGamesByUser, login, registration } from '../http/userAPI';
 import {Context} from "../index";
-
-const useValidation = (value, validations) => {
-	const [isEmpty, setEmpty] = useState(true)
-	const [minLengthError, setMinLengthError] = useState(false)
-	const [emailError, setEmailError] = useState(false)
-	const [inputValid, setInputValid] = useState(false)
-
-
-	useEffect( () => {
-		for (const validation in validations) {
-			switch (validation) {
-				case 'minLength':
-					value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false)
-					break;
-				case 'isEmpty':
-					value ? setEmpty(false) : setEmpty(true)
-					break;
-				case 'isEmail':
-					const re = /\S+@\S+\.\S+/;
-					re.test(String(value).toLowerCase()) ? setEmailError(false) : setEmailError(true)
-					break;
-			}
-		}
-	}, [value])
-
-	useEffect(() => {
-		if (isEmpty || minLengthError || emailError)
-			setInputValid(false)
-		else {
-				setInputValid(true)
-			}
-	}, [isEmpty, minLengthError, emailError])
-
-	return {
-		isEmpty,
-		minLengthError,
-		emailError,
-		inputValid
-	}
-}
-
-const useInput = (initialValue, validations) => {
-	const [value, setValue] = useState(initialValue)
-	const [isDirty, setDirty] = useState(false)
-	const valid = useValidation(value, validations)
-
-	const onChange = (e) => {
-		setValue(e.target.value)
-	}
-
-	const onBlur = (e) => {
-		setDirty(true)
-	}
-
-	return {
-		value,
-		onChange,
-		onBlur,
-		isDirty,
-		...valid
-	}
-}
-
+import { useInput } from '../components/Validation';
 
 const Auth = () => {
 	const { user } = useContext(Context)
@@ -82,13 +20,27 @@ const Auth = () => {
 			if (isLogin) {
 				data = await login(email.value, password.value);
 			} else {
-
 				data = await registration(email.value, password.value);
 			}
-			console.log(data)
 
 			user.setUser(user)
 			user.setIsAuth(true)
+
+			{/* UPDATE EMAIL */}
+			let userData = await decodeToken(String(data.data))
+			user.setEmail(userData.data.email)
+
+			{/* UPDATE USER ID */}
+			user.setId(userData.data.id)
+
+			{/* UPDATE GAME HISTORY */}
+			data = await getGamesByUser(user.email)
+			let games = []
+			{data.data.map((game, i) =>
+				games.push({winner: game.winner, time: game.time})
+			)}
+			user.setGames(games)
+
 			history.push(MAIN_ROUTE)
 		} catch (e) {
 			alert(e.response.data.message)
