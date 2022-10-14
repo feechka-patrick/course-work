@@ -6,6 +6,7 @@ import {Context} from "../index";
 
 const GameTable = () => {
 	const { user } = useContext(Context)
+	const [sgames, setGames] = useState(user.games)
 
 	const updateGames = async () => {
 		try {
@@ -16,6 +17,7 @@ const GameTable = () => {
 				games.push({winner: game.winner, time: game.time})
 			)}
 			user.setGames(games)
+			setGames(games)
 		} catch (e) {
 			alert(e.response.data.message)
 		}
@@ -36,7 +38,7 @@ const GameTable = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{user.games.map((game, i) =>
+					{sgames.map((game, i) =>
 						<tr key={i}>
 							<td>{i + 1}</td>
 							<td>{game.winner ? "win" : "lose"}</td>

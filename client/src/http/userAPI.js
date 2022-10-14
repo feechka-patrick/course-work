@@ -1,6 +1,5 @@
 import { $host } from "."
 
-
 export const registration = async (email, password) => {
     const response = await $host.post('auth/registration', {email, password, role: 'user'})
     return response;

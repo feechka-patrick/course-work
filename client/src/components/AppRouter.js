@@ -6,7 +6,7 @@ import { LOGIN_ROUTE } from '../utils/consts';
 
 
 const AppRouter = () => {
-  const {user} = useContext(Context)
+  // const {user} = useContext(Context)
 
   return (
     <Switch>

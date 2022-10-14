@@ -43,21 +43,7 @@ const Game = () => {
       }
     }
   }
-
-  const updateGames = () => {
-		try {
-			let data = getGamesByUser(user.email)
-
-			let games = []
-			{data.data.map((game, i) =>
-				games.push({winner: game.winner, time: game.time})
-			)}
-			user.setGames(games)
-		} catch (e) {
-			alert(e.response.data.message)
-		}
-	}
-
+  
   const startNewGame = () => {
     setBoard(Array(9).fill(null))
     setCount(0)
