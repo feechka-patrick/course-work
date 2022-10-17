@@ -32,5 +32,9 @@ const userSlice = createSlice({
     extraReducers: () => { },
 });
 
+// export const loginEmail = async (email, password) => {
+    
+// }
+
 export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

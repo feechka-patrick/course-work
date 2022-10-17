@@ -23,6 +23,7 @@ const Auth = () => {
 				data = await registration(email.value, password.value);
 			}
 
+			debugger
 			user.setUser(user)
 			user.setIsAuth(true)
 
